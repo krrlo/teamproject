@@ -1,4 +1,4 @@
-//시그널링서버
+//웹소켓서버
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -23,6 +23,7 @@ app.get("/:room", (req, res) => {
 io.on("connection", (socket) => {
   //클라이언트에서 "join-room" 이벤트가 발생하면, 해당 방에 참여하려는 사용자의 roomId와 userId가 소켓을 통해 서버로 전송
   socket.on("join-room", (roomId, userId) => {
+    console.log(roomId);
     //서버는 해당 사용자를  방에 조인 시킴
     socket.join(roomId);
     //해당방에 속한 다른 사용자들에게 새로운 사용자가 방에 연결되었음을 알리기 위해 "user-connected"이벤트를 브로드캐스트 함

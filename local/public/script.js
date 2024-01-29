@@ -8,7 +8,7 @@ const videoGrid = document.getElementById("video-grid");
 
 //peer객체 생성, ( peer객체의 id를 설정 , 다른피어에게 전달됨  ,  peer서버의 호스트주소와 포트번호 설정)
 //서버 내의 특정 프로세스에 연결
-const myPeer = new Peer("undefined", {
+const myPeer = new Peer({
   host: "/", // 서버의 주소
   port: "3001", //PeerJS 서버가 실행되고 있는 포트
 });
