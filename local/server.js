@@ -1,14 +1,20 @@
 //웹소켓서버
 const express = require("express");
+const cors = require("cors");
 const app = express();
+// HTTP 서버(server)를 생성
 const server = require("http").Server(app);
+// Socket.IO 모듈을 사용하여 웹 소켓 서버(io)를 생성
 const io = require("socket.io")(server);
 const { v4: uuidV4 } = require("uuid");
 
+console.log(`${uuidV4()}`);
+app.use(cors());
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+  //res.send("안녕");
   res.redirect(`/${uuidV4()}`);
 });
 
@@ -22,6 +28,7 @@ app.get("/:room", (req, res) => {
 //서버와 클라이언트가 연결되면 핸들러 실행
 io.on("connection", (socket) => {
   //클라이언트에서 "join-room" 이벤트가 발생하면, 해당 방에 참여하려는 사용자의 roomId와 userId가 소켓을 통해 서버로 전송
+  console.log("소켓서버접속했음");
   socket.on("join-room", (roomId, userId) => {
     console.log(roomId);
     //서버는 해당 사용자를  방에 조인 시킴
