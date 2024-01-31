@@ -23,13 +23,16 @@ request(options, function (error, response) {
   // console.log(json);
   let obj = JSON.parse(json);
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 50; i++) {
     let ename =
       obj.elements[0].elements[1].elements[3].elements[i].elements[0]
         .elements[0].text;
     let mname =
       obj.elements[0].elements[1].elements[3].elements[i].elements[1]
         .elements[0].text;
+
+    console.log(ename);
+    console.log(mname);
     insertData(ename, mname);
   }
 });
@@ -49,8 +52,7 @@ async function insertData(e, m) {
     // 데이터 삽입 SQL 작성
     const sql = `INSERT INTO 
     medicine (MEDICINE_NO,MEDICINE_NAME,ENTP_NAME) VALUES ((SELECT NVL(MAX(MEDICINE_NO), 0) + 1 FROM medicine), :1, :2)`;
-    const binds = [e, m]; // 실제 데이터에 맞게 수정
-
+    const binds = [m, e];
     // SQL 실행
     const result = await connection.execute(sql, binds);
     await connection.commit();
