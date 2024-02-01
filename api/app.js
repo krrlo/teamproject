@@ -15,7 +15,7 @@ var options = {
   url: "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=FT0T1GIASo3H1YMtuIqZIb612ZTiTYOOTyZ0SMTilcHe4DM0xX8iVRPGxyl1e1omWPg0U4tWsYY7p31P%2BtWHFQ%3D%3D&numOfRows=100",
   headers: {},
 };
-request(options, function (error, response) {
+request(options, async function (error, response) {
   if (error) throw new Error(error);
   //console.log(response);
   let xmlString = response.body;
@@ -33,7 +33,7 @@ request(options, function (error, response) {
 
     console.log(ename);
     console.log(mname);
-    insertData(ename, mname);
+    await insertData(ename, mname);
   }
 });
 
@@ -41,6 +41,10 @@ const dbConfig = {
   user: "team2",
   password: "team2",
   connectString: "43.201.28.219:1521/xe",
+  poolMax: 20,
+  poolMin: 5,
+  poolIncrement: 2,
+  poolTimeout: 60,
 };
 
 async function insertData(e, m) {
